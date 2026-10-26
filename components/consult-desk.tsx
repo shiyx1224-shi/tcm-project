@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { ResultPanel } from "@/components/result-panel"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { showcaseCases } from "@/lib/cases"
 import { analyze, neighborReading, relatedDiseases } from "@/lib/engine"
@@ -115,19 +114,30 @@ export function ConsultDesk({ initialCaseId }: { initialCaseId: string | null })
         </div>
 
         <div className="space-y-2 rounded-xl border bg-card p-3">
-          <div className="flex flex-col gap-2 sm:flex-row">
-              <Select value={loaded?.id} onValueChange={loadCase}>
-              <SelectTrigger className="w-full sm:max-w-xs">
-                <SelectValue placeholder="Load a sample chart" />
-              </SelectTrigger>
-              <SelectContent>
-                {showcaseCases.map((item) => (
-                  <SelectItem key={item.id} value={item.id}>
-                    {item.title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <label className="sr-only" htmlFor="sample-chart">
+              Load a sample chart
+            </label>
+            <select
+              id="sample-chart"
+              className="border-input bg-background h-9 w-full rounded-lg border px-3 text-sm sm:max-w-xs"
+              value={loaded?.id ?? ""}
+              onChange={(event) => {
+                const next = event.target.value
+                if (!next) {
+                  clearChart()
+                  return
+                }
+                loadCase(next)
+              }}
+            >
+              <option value="">Load a sample chart</option>
+              {showcaseCases.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.title}
+                </option>
+              ))}
+            </select>
             <p className="text-xs leading-relaxed text-muted-foreground">
               Sample charts are written for teaching. They are not records from the parent studies.
             </p>
