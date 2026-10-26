@@ -19,7 +19,8 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **Random Forest baseline (multiclass):** [`docs/random_forest.md`](docs/random_forest.md) · `python scripts/train_random_forest.py` · `python scripts/predict_syndrome.py`  
 **Logistic Regression (same split/features):** [`docs/logistic_regression.md`](docs/logistic_regression.md) · `python scripts/train_logistic_regression.py`  
 **SVM / LinearSVC (same split/features):** [`docs/svm.md`](docs/svm.md) · `python scripts/train_svm.py`  
-**Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `results/figures/model_comparison.png` · `python scripts/compare_models.py`
+**Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `results/figures/model_comparison.png` · `python scripts/compare_models.py`  
+**Feature selection experiment:** [`docs/feature_selection_experiment.md`](docs/feature_selection_experiment.md) · `python scripts/run_feature_selection_experiment.py`
 
 ## Parent papers
 
@@ -76,6 +77,8 @@ python scripts/compare_models.py
 
 Artifacts: `artifacts/models/{random_forest,logistic_regression,svm}/`.  
 Comparison: `results/metrics/model_comparison.csv`, `results/figures/model_comparison.png`.
+
+Feature-selection ablation (MI / RF importance / Gong-inspired PCC filter vs unsupervised variance truncate; train-only selectors): `python scripts/run_feature_selection_experiment.py` → `results/metrics/feature_selection_*.csv`, `results/figures/feature_*.png`.
 
 ## Course note (DS340W)
 

@@ -1,0 +1,69 @@
+{
+  "k": 2000,
+  "pool_n_features": 20011,
+  "selection_meta": {
+    "no_supervised_fs": {
+      "uses_train_labels": false,
+      "uses_validation_labels": false,
+      "uses_test_labels": false,
+      "k": 2000,
+      "score_min": 5.827141052135328e-06,
+      "score_max": 1.000000000001292,
+      "score_mean_selected": 0.003892111963918163
+    },
+    "mutual_information": {
+      "uses_train_labels": true,
+      "uses_validation_labels": false,
+      "uses_test_labels": false,
+      "k": 2000,
+      "score_min": 0.0,
+      "score_max": 0.5379503042380112,
+      "score_mean_selected": 0.1539419617357239
+    },
+    "rf_importance": {
+      "uses_train_labels": true,
+      "uses_validation_labels": false,
+      "uses_test_labels": false,
+      "k": 2000,
+      "score_min": -2.3693581529153197e-22,
+      "score_max": 0.002365560688230435,
+      "score_mean_selected": 0.0004076971428403514
+    },
+    "pcc_inspired_gong": {
+      "uses_train_labels": true,
+      "uses_validation_labels": false,
+      "uses_test_labels": false,
+      "k": 2000,
+      "score_min": 0.0,
+      "score_max": 0.03212520146333563,
+      "score_mean_selected": 0.02035116913610794
+    }
+  },
+  "results_csv": "/workspace/results/metrics/feature_selection_comparison.csv",
+  "deltas_csv": "/workspace/results/metrics/feature_selection_f1_deltas.csv",
+  "interpretation": "/workspace/docs/feature_selection_experiment.md",
+  "best_row": {
+    "model": "random_forest",
+    "selection_method": "no_supervised_fs",
+    "supervised_selection": false,
+    "n_features": 2000,
+    "n_train": 37955,
+    "n_validation": 5420,
+    "accuracy": 0.8046125461254613,
+    "precision": 0.8025932373338296,
+    "recall": 0.8046125461254613,
+    "micro_f1": 0.8046125461254613,
+    "macro_f1": 0.461715726804544,
+    "f1_weighted": 0.7970768808452714
+  },
+  "mean_delta_micro_f1": {
+    "mutual_information": -0.006088560885608866,
+    "rf_importance": -0.015805658056580574,
+    "pcc_inspired_gong": -0.011254612546125475
+  },
+  "holdout_policy": {
+    "validation_labels_in_selection": false,
+    "test_labels_in_selection": false,
+    "test_used_for_ranking": false
+  }
+}

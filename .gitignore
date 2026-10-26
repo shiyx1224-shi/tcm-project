@@ -56,6 +56,7 @@ next-env.d.ts
 /artifacts/models/random_forest/*.joblib
 /artifacts/models/logistic_regression/*.joblib
 /artifacts/models/svm/*.joblib
+/artifacts/feature_selection/selector_*.joblib
 
 # Keep preprocessor joblib in artifacts; ignore Python caches
 __pycache__/
