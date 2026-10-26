@@ -1,0 +1,105 @@
+{
+  "random_state": 42,
+  "requested_fractions": {
+    "train": 0.7,
+    "validation": 0.1,
+    "test": 0.2
+  },
+  "partition_summary": [
+    {
+      "partition": "train",
+      "n_rows": 37955,
+      "pct_rows": 70.09,
+      "n_groups": 33712,
+      "n_patients": 36646,
+      "n_labels": 148
+    },
+    {
+      "partition": "validation",
+      "n_rows": 5420,
+      "pct_rows": 10.01,
+      "n_groups": 4816,
+      "n_patients": 5225,
+      "n_labels": 148
+    },
+    {
+      "partition": "test",
+      "n_rows": 10777,
+      "pct_rows": 19.9,
+      "n_groups": 9633,
+      "n_patients": 10424,
+      "n_labels": 148
+    }
+  ],
+  "overlap_checks": {
+    "ok": true,
+    "checks": {
+      "patient_user_id": {
+        "train∩validation": 0,
+        "train∩test": 0,
+        "validation∩test": 0
+      },
+      "case_fingerprint": {
+        "train∩validation": 0,
+        "train∩test": 0,
+        "validation∩test": 0
+      },
+      "leakage_group": {
+        "train∩validation": 0,
+        "train∩test": 0,
+        "validation∩test": 0
+      }
+    }
+  },
+  "feature_leakage_checks": {
+    "ok": true,
+    "feature_columns": [
+      "chief_complaint",
+      "description",
+      "detection"
+    ],
+    "banned_present": [],
+    "recommended_text_features": [
+      "chief_complaint",
+      "description",
+      "detection"
+    ],
+    "target": "norm_syndrome"
+  },
+  "labels_missing_from_train": 0,
+  "matrices": {
+    "train": {
+      "X_shape": [
+        37955,
+        5000
+      ],
+      "n_rows": 37955,
+      "n_unknown_labels": 0,
+      "nnz": 6220384
+    },
+    "validation": {
+      "X_shape": [
+        5420,
+        5000
+      ],
+      "n_rows": 5420,
+      "n_unknown_labels": 0,
+      "nnz": 875058
+    },
+    "test": {
+      "X_shape": [
+        10777,
+        5000
+      ],
+      "n_rows": 10777,
+      "n_unknown_labels": 0,
+      "nnz": 1747197
+    }
+  },
+  "notes": [
+    "Preprocessor fitted on training partition only.",
+    "Test partition transformed with frozen train statistics; not used for fitting.",
+    "No machine-learning classifier was trained.",
+    "Disease codes/names intentionally excluded from features to reduce leakage."
+  ]
+}

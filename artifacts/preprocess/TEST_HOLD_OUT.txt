@@ -1,0 +1,1 @@
+The test partition in data/processed/*_test* must not be used for fitting or model selection. Validation may be used for tuning later; test only for final evaluation.

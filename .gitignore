@@ -46,3 +46,12 @@ next-env.d.ts
 # Large extracted TCM-SD JSON (recreate with unzip or scripts/download_tcm_sd.sh)
 /data/raw/TCM-SD/train.json
 /data/raw/TCM-SD/dev.json
+
+# Large fitted matrices (regenerate with python scripts/run_preprocess.py)
+/data/processed/*.npz
+/data/processed/*_rows.parquet
+/data/processed/y_*.joblib
+# Keep preprocessor joblib in artifacts; ignore Python caches
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
