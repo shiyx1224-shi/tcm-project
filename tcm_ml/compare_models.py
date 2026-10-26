@@ -19,12 +19,14 @@ MODEL_DIRS = {
     "random_forest": ("artifacts", "models", "random_forest"),
     "logistic_regression": ("artifacts", "models", "logistic_regression"),
     "svm": ("artifacts", "models", "svm"),
+    "huang_cnn": ("artifacts", "models", "huang_cnn"),
 }
 
 DISPLAY_NAMES = {
     "random_forest": "Random Forest",
     "logistic_regression": "Logistic Regression",
     "svm": "SVM (LinearSVC)",
+    "huang_cnn": "Huang-inspired CNN",
 }
 
 
@@ -79,18 +81,19 @@ def write_comparison_figure(frame: pd.DataFrame, out_path: Path) -> Path:
         ("micro_f1", "Micro-F1"),
         ("macro_f1", "Macro-F1"),
     ]
-    # Stable display order: RF, LR, SVM (missing models skipped)
-    preferred = ["random_forest", "logistic_regression", "svm"]
+    # Stable display order (missing models skipped)
+    preferred = ["random_forest", "logistic_regression", "svm", "huang_cnn"]
     models = [m for m in preferred if m in set(frame["model"])]
     models += [m for m in frame["model"] if m not in models]
 
     labels = [DISPLAY_NAMES.get(m, m) for m in models]
     x = range(len(plot_metrics))
-    width = 0.22
+    width = 0.18
     colors = {
         "random_forest": "#1f4e79",
         "logistic_regression": "#c45c26",
         "svm": "#2a6f4e",
+        "huang_cnn": "#6b3fa0",
     }
 
     fig, ax = plt.subplots(figsize=(10.5, 5.2))
@@ -168,9 +171,9 @@ def write_model_comparison(root: Path | None = None) -> dict[str, Path]:
         "",
         "- **Random Forest** — non-linear ensemble of trees; `class_weight=balanced_subsample`.",
         "- **Logistic Regression** — linear multinomial classifier (`lbfgs`, balanced).",
-        "- **SVM** — linear support-vector classifier (`LinearSVC`, OvR, balanced). "
-        "Kernel SVM was not used for this baseline because of cost on 148 classes.",
-        "- No multi-label wrappers; no deep learning in this comparison.",
+        "- **SVM** — linear support-vector classifier (`LinearSVC`, OvR, balanced).",
+        "- **Huang-inspired CNN** — AdaptedCrossFGCNN (cross network + FGCNN-style CNN); "
+        "**not** an exact reproduction of Huang et al. 2022 (different data/fields/labels).",
         "",
     ]
 

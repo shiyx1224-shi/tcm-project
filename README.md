@@ -20,7 +20,8 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **Logistic Regression (same split/features):** [`docs/logistic_regression.md`](docs/logistic_regression.md) · `python scripts/train_logistic_regression.py`  
 **SVM / LinearSVC (same split/features):** [`docs/svm.md`](docs/svm.md) · `python scripts/train_svm.py`  
 **Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `results/figures/model_comparison.png` · `python scripts/compare_models.py`  
-**Feature selection experiment:** [`docs/feature_selection_experiment.md`](docs/feature_selection_experiment.md) · `python scripts/run_feature_selection_experiment.py`
+**Feature selection experiment:** [`docs/feature_selection_experiment.md`](docs/feature_selection_experiment.md) · `python scripts/run_feature_selection_experiment.py`  
+**Huang-inspired CNN (adapted Cross-FGCNN):** [`docs/huang_cnn.md`](docs/huang_cnn.md) · `python scripts/train_huang_cnn.py`
 
 ## Parent papers
 
@@ -64,7 +65,7 @@ npm run build
 
 ## ML baselines (TCM-SD)
 
-TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). Traditional baselines share the same leakage-aware 70/10/20 features and are scored on validation only. **Test is not used for model selection.** No deep learning yet.
+TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). Models share the same leakage-aware 70/10/20 partitions and are scored on validation. **Test is not used for model selection.**
 
 ```bash
 pip install -r requirements-ml.txt
@@ -72,13 +73,14 @@ python scripts/run_preprocess.py          # if data/processed is empty
 python scripts/train_random_forest.py
 python scripts/train_logistic_regression.py
 python scripts/train_svm.py
+python scripts/train_huang_cnn.py         # Huang 2022–inspired CNN (adaptation, not exact reproduction)
 python scripts/compare_models.py
 ```
 
-Artifacts: `artifacts/models/{random_forest,logistic_regression,svm}/`.  
+Artifacts: `artifacts/models/{random_forest,logistic_regression,svm,huang_cnn}/`.  
 Comparison: `results/metrics/model_comparison.csv`, `results/figures/model_comparison.png`.
 
-Feature-selection ablation (MI / RF importance / Gong-inspired PCC filter vs unsupervised variance truncate; train-only selectors): `python scripts/run_feature_selection_experiment.py` → `results/metrics/feature_selection_*.csv`, `results/figures/feature_*.png`.
+Feature-selection ablation: `python scripts/run_feature_selection_experiment.py`.
 
 ## Course note (DS340W)
 
