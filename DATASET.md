@@ -119,17 +119,16 @@ Each JSON line / object includes:
 
 ```
 data/raw/TCM-SD/
-  train.json
-  dev.json
-  test.json
+  TCM_SD_train_dev.zip      # committed; contains train.json + dev.json
+  test.json                 # committed (not inside the zip)
   syndrome_vocab.txt
   syndrome_knowledge.json
-  TCM_SD_train_dev.zip
   TCM_Data_Sample.zip
   TCM Data Sample/
   UPSTREAM_README.md
   UPSTREAM_LICENSE_MIT_SOFTWARE.txt
   SHA256SUMS.txt
+  train.json / dev.json     # extracted locally; gitignored (unzip the zip)
 ```
 
 ### Download instructions
