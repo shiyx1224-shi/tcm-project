@@ -13,7 +13,8 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **License:** CC BY-NC-SA 4.0 (dataset; non-commercial research with attribution)  
 **Paper:** Ren et al., CCL 2022 — https://aclanthology.org/2022.ccl-1.80/  
 **Local copy / schema / download steps:** [`DATASET.md`](DATASET.md) · files under `data/raw/TCM-SD/`  
-**Re-download:** `bash scripts/download_tcm_sd.sh`
+**Re-download:** `bash scripts/download_tcm_sd.sh`  
+**EDA notebook (no training):** [`notebooks/01_data_exploration.ipynb`](notebooks/01_data_exploration.ipynb)
 
 ## Parent papers
 
