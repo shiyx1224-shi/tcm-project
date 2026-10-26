@@ -3,82 +3,17 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import joblib
 import numpy as np
 import pandas as pd
-from scipy import sparse
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import (
-    accuracy_score,
-    classification_report,
-    f1_score,
-    precision_score,
-    recall_score,
-)
 
+from .evaluation import TASK_TYPE, evaluate_multiclass, load_xy
 from .load import TEXT_FEATURE_COLS, project_root
 from .preprocess import SyndromePreprocessor
-
-TASK_TYPE = "multiclass"  # TCM-SD: one norm_syndrome per record
-
-
-@dataclass
-class RFArtifacts:
-    directory: Path
-    model_path: Path
-    pipeline_path: Path
-    metrics_path: Path
-
-
-def _load_xy(processed: Path, split: str) -> tuple[sparse.csr_matrix, np.ndarray, np.ndarray]:
-    X = sparse.load_npz(processed / f"X_{split}.npz").tocsr()
-    payload = joblib.load(processed / f"y_{split}.joblib")
-    y = np.asarray(payload["y"])
-    labels = np.asarray(payload["y_labels"])
-    # Drop any unknown-label rows (should be 0 for our split)
-    keep = y >= 0
-    return X[keep], y[keep], labels[keep]
-
-
-def evaluate_multiclass(y_true: np.ndarray, y_pred: np.ndarray, class_names: list[str]) -> dict[str, Any]:
-    metrics = {
-        "task_type": TASK_TYPE,
-        "n_samples": int(len(y_true)),
-        "n_classes_in_encoder": len(class_names),
-        "accuracy": float(accuracy_score(y_true, y_pred)),
-        "precision_macro": float(precision_score(y_true, y_pred, average="macro", zero_division=0)),
-        "precision_weighted": float(precision_score(y_true, y_pred, average="weighted", zero_division=0)),
-        "recall_macro": float(recall_score(y_true, y_pred, average="macro", zero_division=0)),
-        "recall_weighted": float(recall_score(y_true, y_pred, average="weighted", zero_division=0)),
-        "f1_micro": float(f1_score(y_true, y_pred, average="micro", zero_division=0)),
-        "f1_macro": float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
-        "f1_weighted": float(f1_score(y_true, y_pred, average="weighted", zero_division=0)),
-        # Explicit aliases matching the assignment wording
-        "precision": float(precision_score(y_true, y_pred, average="weighted", zero_division=0)),
-        "recall": float(recall_score(y_true, y_pred, average="weighted", zero_division=0)),
-        "micro_f1": float(f1_score(y_true, y_pred, average="micro", zero_division=0)),
-        "macro_f1": float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
-    }
-    # Multi-label metrics are not applicable; record that clearly
-    metrics["multilabel_metrics"] = {
-        "applicable": False,
-        "reason": "TCM-SD is single-label multiclass (one norm_syndrome per row).",
-        "exact_match_accuracy": None,
-        "hamming_loss": None,
-    }
-    metrics["classification_report"] = classification_report(
-        y_true,
-        y_pred,
-        labels=list(range(len(class_names))),
-        target_names=class_names,
-        zero_division=0,
-        output_dict=True,
-    )
-    return metrics
 
 
 class SyndromeRandomForestPipeline:
@@ -144,8 +79,8 @@ def train_random_forest(
             f"Missing preprocessor under {pre_dir}. Run: python scripts/run_preprocess.py"
         )
 
-    X_train, y_train, _ = _load_xy(processed, "train")
-    X_val, y_val, _ = _load_xy(processed, "validation")
+    X_train, y_train, _ = load_xy(processed, "train")
+    X_val, y_val, _ = load_xy(processed, "validation")
 
     # Dense conversion required by RandomForestClassifier; free sparse copies after
     X_train_dense = X_train.astype(np.float32).toarray()
@@ -197,14 +132,12 @@ def train_random_forest(
         json.dumps(metrics, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    # Compact human-readable summary without the huge per-class report dump twice
     summary = {k: v for k, v in metrics.items() if k != "classification_report"}
     (out_dir / "validation_summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
 
-    # Save a few validation predictions for spot checks
     preview = pd.DataFrame(
         {
             "y_true_index": y_val[:50],

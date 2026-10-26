@@ -16,7 +16,9 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **Re-download:** `bash scripts/download_tcm_sd.sh`  
 **EDA notebook (no training):** [`notebooks/01_data_exploration.ipynb`](notebooks/01_data_exploration.ipynb)  
 **Split + preprocess:** [`docs/preprocessing.md`](docs/preprocessing.md) · `python scripts/run_preprocess.py`  
-**Random Forest baseline (multiclass):** [`docs/random_forest.md`](docs/random_forest.md) · `python scripts/train_random_forest.py` · `python scripts/predict_syndrome.py`
+**Random Forest baseline (multiclass):** [`docs/random_forest.md`](docs/random_forest.md) · `python scripts/train_random_forest.py` · `python scripts/predict_syndrome.py`  
+**Logistic Regression (same split/features):** [`docs/logistic_regression.md`](docs/logistic_regression.md) · `python scripts/train_logistic_regression.py`  
+**Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `python scripts/compare_models.py`
 
 ## Parent papers
 
@@ -58,21 +60,24 @@ npm run lint
 npm run build
 ```
 
-## ML baseline (TCM-SD Random Forest)
+## ML baselines (TCM-SD)
 
-TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). The first working model is a Random Forest trained on the leakage-aware 70/10/20 features, evaluated on validation only (test held out).
+TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). Baselines share the same leakage-aware 70/10/20 features and are scored on validation only (test held out). No SVM yet.
 
 ```bash
 pip install -r requirements-ml.txt
 python scripts/run_preprocess.py          # if data/processed is empty
 python scripts/train_random_forest.py
+python scripts/train_logistic_regression.py
+python scripts/compare_models.py
 python scripts/predict_syndrome.py \
   --chief-complaint "头痛，头晕" \
   --description "患者头痛头晕三日，伴恶心。" \
   --detection "舌淡红，苔薄白，脉弦。"
 ```
 
-Artifacts land in `artifacts/models/random_forest/` (model, inference pipeline, validation metrics).
+Artifacts: `artifacts/models/random_forest/`, `artifacts/models/logistic_regression/`.  
+Comparison CSV: `results/metrics/model_comparison.csv`.
 
 ## Course note (DS340W)
 

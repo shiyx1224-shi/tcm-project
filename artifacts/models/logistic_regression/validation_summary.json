@@ -1,0 +1,44 @@
+{
+  "task_type": "multiclass",
+  "n_samples": 5420,
+  "n_classes_in_encoder": 148,
+  "accuracy": 0.5119926199261993,
+  "precision_macro": 0.3035676962236159,
+  "precision_weighted": 0.7762715252997557,
+  "recall_macro": 0.5151015507329088,
+  "recall_weighted": 0.5119926199261993,
+  "f1_micro": 0.5119926199261993,
+  "f1_macro": 0.33159518091244594,
+  "f1_weighted": 0.5586669740089603,
+  "precision": 0.7762715252997557,
+  "recall": 0.5119926199261993,
+  "micro_f1": 0.5119926199261993,
+  "macro_f1": 0.33159518091244594,
+  "multilabel_metrics": {
+    "applicable": false,
+    "reason": "TCM-SD is single-label multiclass (one norm_syndrome per row).",
+    "exact_match_accuracy": null,
+    "hamming_loss": null
+  },
+  "model": {
+    "type": "LogisticRegression",
+    "task_type": "multiclass",
+    "C": 1.0,
+    "solver": "lbfgs",
+    "multi_class": "multinomial (sklearn default)",
+    "class_weight": "balanced",
+    "max_iter": 300,
+    "random_state": 42,
+    "n_train": 37955,
+    "n_validation": 5420,
+    "n_features": 5000,
+    "multi_label_wrapper": null,
+    "multi_label_wrapper_reason": "Not required: TCM-SD targets a single norm_syndrome per row (multiclass)."
+  },
+  "holdout_policy": {
+    "validation_used_for": "initial model evaluation",
+    "test_used": false,
+    "note": "Same train/validation partitions as Random Forest; test untouched.",
+    "shared_features_with": "random_forest"
+  }
+}
