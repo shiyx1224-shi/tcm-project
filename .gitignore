@@ -51,6 +51,10 @@ next-env.d.ts
 /data/processed/*.npz
 /data/processed/*_rows.parquet
 /data/processed/y_*.joblib
+
+# Large fitted model binaries (retrain with python scripts/train_random_forest.py)
+/artifacts/models/random_forest/*.joblib
+
 # Keep preprocessor joblib in artifacts; ignore Python caches
 __pycache__/
 *.py[cod]

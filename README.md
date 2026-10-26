@@ -15,7 +15,8 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **Local copy / schema / download steps:** [`DATASET.md`](DATASET.md) · files under `data/raw/TCM-SD/`  
 **Re-download:** `bash scripts/download_tcm_sd.sh`  
 **EDA notebook (no training):** [`notebooks/01_data_exploration.ipynb`](notebooks/01_data_exploration.ipynb)  
-**Split + preprocess (no classifier):** [`docs/preprocessing.md`](docs/preprocessing.md) · `python scripts/run_preprocess.py`
+**Split + preprocess:** [`docs/preprocessing.md`](docs/preprocessing.md) · `python scripts/run_preprocess.py`  
+**Random Forest baseline (multiclass):** [`docs/random_forest.md`](docs/random_forest.md) · `python scripts/train_random_forest.py` · `python scripts/predict_syndrome.py`
 
 ## Parent papers
 
@@ -57,9 +58,25 @@ npm run lint
 npm run build
 ```
 
+## ML baseline (TCM-SD Random Forest)
+
+TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). The first working model is a Random Forest trained on the leakage-aware 70/10/20 features, evaluated on validation only (test held out).
+
+```bash
+pip install -r requirements-ml.txt
+python scripts/run_preprocess.py          # if data/processed is empty
+python scripts/train_random_forest.py
+python scripts/predict_syndrome.py \
+  --chief-complaint "头痛，头晕" \
+  --description "患者头痛头晕三日，伴恶心。" \
+  --detection "舌淡红，苔薄白，脉弦。"
+```
+
+Artifacts land in `artifacts/models/random_forest/` (model, inference pipeline, validation metrics).
+
 ## Course note (DS340W)
 
-This is a reproduction-style project: we implement the *ideas* from the three parent papers (multi-label reading, sparse four examinations with crosses, holistic constraints) as an interactive teaching instrument with transparent scoring, not a black-box retrain of their neural models on proprietary clinical data.
+This is a reproduction-style project: we implement the *ideas* from the three parent papers (multi-label reading, sparse four examinations with crosses, holistic constraints) as an interactive teaching instrument with transparent scoring, not a black-box retrain of their neural models on proprietary clinical data. The Random Forest path above is the first supervised baseline on the public TCM-SD release.
 
 **Research foundation (verified citations, parent-paper methods):** [`docs/parent_papers.md`](docs/parent_papers.md)  
 **Selected public dataset (link, license, features):** [`DATASET.md`](DATASET.md)

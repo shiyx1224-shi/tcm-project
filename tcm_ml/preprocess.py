@@ -88,20 +88,53 @@ class SyndromePreprocessor:
         self.feature_blocks_: dict[str, slice] | None = None
         self.fitted_: bool = False
 
-    def _prepare_xy_frames(self, frame: pd.DataFrame) -> tuple[pd.Series, pd.DataFrame, pd.DataFrame, pd.Series]:
+    def _prepare_feature_frames(
+        self, frame: pd.DataFrame, *, require_target: bool
+    ) -> tuple[pd.DataFrame, pd.Series, pd.DataFrame, pd.DataFrame, pd.Series | None]:
         # Missing-value handling for text: empty string; numerics filled after engineering
         clean = frame.copy()
         for col in TEXT_FEATURE_COLS:
+            if col not in clean.columns:
+                clean[col] = ""
             clean[col] = clean[col].fillna("").astype(str)
-        # Drop rows with empty target rather than inventing labels
-        mask = clean[TARGET_COL].fillna("").astype(str).str.strip() != ""
-        clean = clean.loc[mask].copy()
+
+        y: pd.Series | None = None
+        if require_target:
+            if TARGET_COL not in clean.columns:
+                raise KeyError(f"Missing target column {TARGET_COL}")
+            mask = clean[TARGET_COL].fillna("").astype(str).str.strip() != ""
+            clean = clean.loc[mask].copy()
+            y = clean[TARGET_COL].astype(str)
+        else:
+            # Inference: keep rows that have at least some clinical text
+            text_lens = sum(clean[c].str.strip().str.len() for c in TEXT_FEATURE_COLS)
+            clean = clean.loc[text_lens > 0].copy()
+            if clean.empty:
+                raise ValueError("No non-empty clinical text fields to transform.")
 
         text = _combine_text(clean)
         numeric = _numeric_frame(clean).fillna(0.0)
         categorical = _categorical_frame(clean).fillna("missing")
-        y = clean[TARGET_COL].astype(str)
+        return clean, text, numeric, categorical, y
+
+    def _prepare_xy_frames(self, frame: pd.DataFrame) -> tuple[pd.Series, pd.DataFrame, pd.DataFrame, pd.Series]:
+        _, text, numeric, categorical, y = self._prepare_feature_frames(frame, require_target=True)
+        assert y is not None
         return text, numeric, categorical, y
+
+    def transform_features(self, frame: pd.DataFrame) -> sparse.csr_matrix:
+        """Transform clinical text into the model feature matrix (no labels required)."""
+        if not self.fitted_ or self.selector is None:
+            raise RuntimeError("Call fit() on training data before transform_features().")
+        _, text, numeric, categorical, _ = self._prepare_feature_frames(frame, require_target=False)
+        X_text = self.tfidf.transform(text)
+        X_num = self.scaler.transform(numeric)
+        X_cat = self.onehot.transform(categorical)
+        X = sparse.hstack(
+            [X_text, sparse.csr_matrix(X_num), X_cat],
+            format="csr",
+        )
+        return self.selector.transform(X).tocsr()
 
     def fit(self, train_df: pd.DataFrame) -> "SyndromePreprocessor":
         text, numeric, categorical, y = self._prepare_xy_frames(train_df)
