@@ -55,6 +55,7 @@ next-env.d.ts
 # Large fitted model binaries (retrain with the scripts under scripts/)
 /artifacts/models/random_forest/*.joblib
 /artifacts/models/logistic_regression/*.joblib
+/artifacts/models/svm/*.joblib
 
 # Keep preprocessor joblib in artifacts; ignore Python caches
 __pycache__/

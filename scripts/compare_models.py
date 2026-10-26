@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write results/metrics/model_comparison.csv from saved validation summaries."""
+"""Write results/metrics comparison CSV + figure from saved validation summaries."""
 
 from __future__ import annotations
 
@@ -14,11 +14,12 @@ from tcm_ml.compare_models import build_comparison_frame, write_model_comparison
 
 
 def main() -> None:
-    path = write_model_comparison(ROOT)
+    paths = write_model_comparison(ROOT)
     frame = build_comparison_frame(ROOT)
     print(frame.to_string(index=False))
-    print(f"\nWrote {path}")
-    print(f"Also wrote {path.parent / 'model_comparison.md'}")
+    print(f"\nWrote {paths['csv']}")
+    print(f"Wrote {paths['markdown']}")
+    print(f"Wrote {paths['figure']}")
 
 
 if __name__ == "__main__":

@@ -18,7 +18,8 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **Split + preprocess:** [`docs/preprocessing.md`](docs/preprocessing.md) · `python scripts/run_preprocess.py`  
 **Random Forest baseline (multiclass):** [`docs/random_forest.md`](docs/random_forest.md) · `python scripts/train_random_forest.py` · `python scripts/predict_syndrome.py`  
 **Logistic Regression (same split/features):** [`docs/logistic_regression.md`](docs/logistic_regression.md) · `python scripts/train_logistic_regression.py`  
-**Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `python scripts/compare_models.py`
+**SVM / LinearSVC (same split/features):** [`docs/svm.md`](docs/svm.md) · `python scripts/train_svm.py`  
+**Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `results/figures/model_comparison.png` · `python scripts/compare_models.py`
 
 ## Parent papers
 
@@ -62,22 +63,19 @@ npm run build
 
 ## ML baselines (TCM-SD)
 
-TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). Baselines share the same leakage-aware 70/10/20 features and are scored on validation only (test held out). No SVM yet.
+TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). Traditional baselines share the same leakage-aware 70/10/20 features and are scored on validation only. **Test is not used for model selection.** No deep learning yet.
 
 ```bash
 pip install -r requirements-ml.txt
 python scripts/run_preprocess.py          # if data/processed is empty
 python scripts/train_random_forest.py
 python scripts/train_logistic_regression.py
+python scripts/train_svm.py
 python scripts/compare_models.py
-python scripts/predict_syndrome.py \
-  --chief-complaint "头痛，头晕" \
-  --description "患者头痛头晕三日，伴恶心。" \
-  --detection "舌淡红，苔薄白，脉弦。"
 ```
 
-Artifacts: `artifacts/models/random_forest/`, `artifacts/models/logistic_regression/`.  
-Comparison CSV: `results/metrics/model_comparison.csv`.
+Artifacts: `artifacts/models/{random_forest,logistic_regression,svm}/`.  
+Comparison: `results/metrics/model_comparison.csv`, `results/figures/model_comparison.png`.
 
 ## Course note (DS340W)
 

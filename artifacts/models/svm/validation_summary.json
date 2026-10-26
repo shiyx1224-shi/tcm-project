@@ -1,0 +1,49 @@
+{
+  "task_type": "multiclass",
+  "n_samples": 5420,
+  "n_classes_in_encoder": 148,
+  "accuracy": 0.7516605166051661,
+  "precision_macro": 0.43762436318868025,
+  "precision_weighted": 0.8186634032112678,
+  "recall_macro": 0.5788063735896437,
+  "recall_weighted": 0.7516605166051661,
+  "f1_micro": 0.7516605166051661,
+  "f1_macro": 0.47451936398755395,
+  "f1_weighted": 0.7711851922514344,
+  "precision": 0.8186634032112678,
+  "recall": 0.7516605166051661,
+  "micro_f1": 0.7516605166051661,
+  "macro_f1": 0.47451936398755395,
+  "multilabel_metrics": {
+    "applicable": false,
+    "reason": "TCM-SD is single-label multiclass (one norm_syndrome per row).",
+    "exact_match_accuracy": null,
+    "hamming_loss": null
+  },
+  "model": {
+    "type": "LinearSVC",
+    "task_type": "multiclass",
+    "kernel": "linear",
+    "C": 1.0,
+    "dual": "auto",
+    "multi_class": "ovr",
+    "class_weight": "balanced",
+    "max_iter": 5000,
+    "random_state": 42,
+    "n_train": 37955,
+    "n_validation": 5420,
+    "n_features": 5000,
+    "multi_label_wrapper": null,
+    "multi_label_wrapper_reason": "Not required: TCM-SD targets a single norm_syndrome per row (multiclass).",
+    "note": "LinearSVC used instead of kernel SVC for tractable 148-class training."
+  },
+  "holdout_policy": {
+    "validation_used_for": "initial model evaluation / traditional-ML ranking",
+    "test_used": false,
+    "note": "Same train/validation partitions as RF and LR; test untouched for model selection.",
+    "shared_features_with": [
+      "random_forest",
+      "logistic_regression"
+    ]
+  }
+}

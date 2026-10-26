@@ -1,34 +1,25 @@
-# Random Forest vs Logistic Regression (validation)
+# Traditional ML comparison (validation)
 
-Fair comparison on the **same** frozen TCM-SD train / validation matrices and the **same** train-fitted preprocessor. Split fractions and group IDs were not changed. Test remains untouched. SVM is not implemented yet.
-
-## Task type
-
-Multiclass (one `norm_syndrome` per row). Multi-label wrappers are not used.
+Fair comparison on the **same** frozen TCM-SD train / validation matrices and preprocessor. Split fractions were not changed. **The held-out test set was not used to pick the best model.** No deep learning in this round.
 
 ## Validation metrics
 
-Source of truth: [`results/metrics/model_comparison.csv`](../results/metrics/model_comparison.csv)
+Source of truth: [`results/metrics/model_comparison.csv`](../results/metrics/model_comparison.csv) · chart: [`results/figures/model_comparison.png`](../results/figures/model_comparison.png)
 
 | Model | Accuracy | Precision | Recall | Micro-F1 | Macro-F1 |
 |-------|---------:|----------:|-------:|---------:|---------:|
-| Random Forest | **0.7314** | **0.7833** | **0.7314** | **0.7314** | **0.4312** |
+| **SVM (LinearSVC)** | **0.7517** | **0.8187** | **0.7517** | **0.7517** | **0.4745** |
+| Random Forest | 0.7314 | 0.7833 | 0.7314 | 0.7314 | 0.4312 |
 | Logistic Regression | 0.5120 | 0.7763 | 0.5120 | 0.5120 | 0.3316 |
 
-Precision / recall above are the weighted aliases stored for reporting; CSV also includes macro averages.
+## Which performs best?
 
-## What differs between the models
+**SVM (LinearSVC) is the best traditional ML algorithm so far** on validation accuracy, precision, recall, micro-F1, and macro-F1. Random Forest is a close second (~2 pp accuracy behind). Logistic Regression lags mainly on recall / F1 in this 148-class long-tailed setting.
 
-| | Random Forest | Logistic Regression |
-|--|---------------|---------------------|
-| Decision surface | Non-linear (ensemble of trees) | Linear (multinomial logit) |
-| Class balance | `balanced_subsample` | `balanced` |
-| Fit representation | Dense float32 | Dense float32 (`lbfgs`) |
-| Artifact size | ~380 MB | ~3–4 MB |
-| Strength | Interactions among symptoms / n-grams | Calibrated linear odds; compact |
+## Why the ranking makes sense
 
-## Which is better?
+- **SVM** maximizes margin separation in the shared 5,000-D TF-IDF space; with class balancing it recovers more rare syndromes (highest macro-F1) while staying linear and compact.
+- **Random Forest** captures non-linear interactions but, at the chosen depth / leaf settings, does not quite match the linear margin classifier on this sparse text representation.
+- **Logistic Regression** is the lightest linear baseline; similar weighted precision to the others but weaker recall, so accuracy and F1 drop.
 
-**Random Forest performs better on the validation set** across accuracy (+0.22), recall, micro-F1, and macro-F1. Weighted precision is nearly tied, so the main gap is recall on this long-tailed 148-class label space: the tree ensemble recovers more true syndromes, including rarer ones (higher macro-F1).
-
-Logistic Regression remains a useful linear baseline and a much lighter inference artifact, but it is not the stronger model under the current shared feature pipeline.
+Test remains sealed for a future final evaluation after model selection is locked on validation.

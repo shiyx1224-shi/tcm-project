@@ -1,4 +1,4 @@
-"""Build a fair validation comparison table across trained TCM-SD baselines."""
+"""Build a fair validation comparison table and chart across TCM-SD baselines."""
 
 from __future__ import annotations
 
@@ -6,10 +6,26 @@ import json
 from pathlib import Path
 from typing import Any
 
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import pandas as pd
 
 from .evaluation import COMPARISON_METRIC_COLUMNS
 from .load import project_root
+
+MODEL_DIRS = {
+    "random_forest": ("artifacts", "models", "random_forest"),
+    "logistic_regression": ("artifacts", "models", "logistic_regression"),
+    "svm": ("artifacts", "models", "svm"),
+}
+
+DISPLAY_NAMES = {
+    "random_forest": "Random Forest",
+    "logistic_regression": "Logistic Regression",
+    "svm": "SVM (LinearSVC)",
+}
 
 
 def _row_from_summary(name: str, summary: dict[str, Any]) -> dict[str, Any]:
@@ -41,70 +57,142 @@ def load_validation_summary(model_dir: Path) -> dict[str, Any]:
 
 def build_comparison_frame(root: Path | None = None) -> pd.DataFrame:
     root = root or project_root()
-    models = {
-        "random_forest": root / "artifacts" / "models" / "random_forest",
-        "logistic_regression": root / "artifacts" / "models" / "logistic_regression",
-    }
     rows = []
-    for name, directory in models.items():
+    for name, parts in MODEL_DIRS.items():
+        directory = root.joinpath(*parts)
+        if not (directory / "validation_summary.json").exists():
+            continue
         summary = load_validation_summary(directory)
         rows.append(_row_from_summary(name, summary))
+    if not rows:
+        raise FileNotFoundError("No model validation_summary.json files found under artifacts/models/")
     frame = pd.DataFrame(rows, columns=COMPARISON_METRIC_COLUMNS)
     return frame.sort_values("accuracy", ascending=False).reset_index(drop=True)
 
 
-def write_model_comparison(root: Path | None = None) -> Path:
+def write_comparison_figure(frame: pd.DataFrame, out_path: Path) -> Path:
+    """Grouped bar chart of core validation metrics for traditional ML baselines."""
+    plot_metrics = [
+        ("accuracy", "Accuracy"),
+        ("precision", "Precision"),
+        ("recall", "Recall"),
+        ("micro_f1", "Micro-F1"),
+        ("macro_f1", "Macro-F1"),
+    ]
+    # Stable display order: RF, LR, SVM (missing models skipped)
+    preferred = ["random_forest", "logistic_regression", "svm"]
+    models = [m for m in preferred if m in set(frame["model"])]
+    models += [m for m in frame["model"] if m not in models]
+
+    labels = [DISPLAY_NAMES.get(m, m) for m in models]
+    x = range(len(plot_metrics))
+    width = 0.22
+    colors = {
+        "random_forest": "#1f4e79",
+        "logistic_regression": "#c45c26",
+        "svm": "#2a6f4e",
+    }
+
+    fig, ax = plt.subplots(figsize=(10.5, 5.2))
+    for i, model in enumerate(models):
+        row = frame.loc[frame["model"] == model].iloc[0]
+        values = [float(row[key]) for key, _ in plot_metrics]
+        offsets = [xi + (i - (len(models) - 1) / 2) * width for xi in x]
+        bars = ax.bar(
+            offsets,
+            values,
+            width=width,
+            label=DISPLAY_NAMES.get(model, model),
+            color=colors.get(model, f"C{i}"),
+            edgecolor="white",
+            linewidth=0.6,
+        )
+        for bar, val in zip(bars, values):
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                bar.get_height() + 0.012,
+                f"{val:.2f}",
+                ha="center",
+                va="bottom",
+                fontsize=8,
+            )
+
+    ax.set_xticks(list(x))
+    ax.set_xticklabels([title for _, title in plot_metrics])
+    ax.set_ylim(0, 1.08)
+    ax.set_ylabel("Score")
+    ax.set_title("TCM-SD validation comparison — traditional ML baselines")
+    ax.legend(frameon=False, loc="upper right")
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.axhline(0, color="#333333", linewidth=0.8)
+    fig.tight_layout()
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, dpi=160)
+    plt.close(fig)
+    return out_path
+
+
+def write_model_comparison(root: Path | None = None) -> dict[str, Path]:
     root = root or project_root()
     out_dir = root / "results" / "metrics"
+    fig_dir = root / "results" / "figures"
     out_dir.mkdir(parents=True, exist_ok=True)
-    frame = build_comparison_frame(root)
-    out_path = out_dir / "model_comparison.csv"
-    frame.to_csv(out_path, index=False)
+    fig_dir.mkdir(parents=True, exist_ok=True)
 
-    # Narrative summary for the research write-up
+    frame = build_comparison_frame(root)
+    csv_path = out_dir / "model_comparison.csv"
+    frame.to_csv(csv_path, index=False)
+
+    fig_path = write_comparison_figure(frame, fig_dir / "model_comparison.png")
+
     best = frame.iloc[0]
-    other = frame.iloc[1] if len(frame) > 1 else None
     lines = [
         "# Model comparison (validation)",
         "",
         "Same frozen TCM-SD train/validation matrices and preprocessor for every model.",
-        "Task type: multiclass (one `norm_syndrome` per record). Test partition unused.",
+        "Task type: multiclass (one `norm_syndrome` per record).",
+        "**Test partition was not used for model selection or ranking.**",
         "",
         f"Primary ranking metric: validation accuracy. Best so far: **{best['model']}** "
         f"(accuracy={best['accuracy']:.4f}, micro_f1={best['micro_f1']:.4f}, "
         f"macro_f1={best['macro_f1']:.4f}).",
         "",
+        "## Validation table",
+        "",
+        frame.to_markdown(index=False),
+        "",
+        f"![Validation metric comparison]({fig_path.relative_to(root).as_posix()})",
+        "",
+        "## Algorithm notes",
+        "",
+        "- **Random Forest** — non-linear ensemble of trees; `class_weight=balanced_subsample`.",
+        "- **Logistic Regression** — linear multinomial classifier (`lbfgs`, balanced).",
+        "- **SVM** — linear support-vector classifier (`LinearSVC`, OvR, balanced). "
+        "Kernel SVM was not used for this baseline because of cost on 148 classes.",
+        "- No multi-label wrappers; no deep learning in this comparison.",
+        "",
     ]
-    if other is not None:
-        acc_delta = float(best["accuracy"]) - float(other["accuracy"])
-        macro_delta = float(best["macro_f1"]) - float(other["macro_f1"])
-        lines.extend(
-            [
-                "## Differences",
-                "",
-                "- **Random Forest** averages many shallow decision trees with "
-                "`class_weight=balanced_subsample`. It can model non-linear interactions "
-                "among TF-IDF / length features, which helps separate visually similar "
-                "syndrome charts.",
-                "- **Logistic Regression** uses a linear multinomial decision boundary "
-                "(`lbfgs`, L2, `class_weight=balanced`) in the same 5,000-D feature space. "
-                "It is much smaller on disk than the RF ensemble but cannot capture "
-                "higher-order feature interactions without explicit crosses.",
-                "- No multi-label wrapper (`MultiOutputClassifier` / `ClassifierChain`) "
-                "was applied: the verified TCM-SD target is multiclass, not multi-label.",
-                "",
-                f"Accuracy gap ({best['model']} − {other['model']}): {acc_delta:+.4f}.",
-                f"Macro-F1 gap ({best['model']} − {other['model']}): {macro_delta:+.4f}.",
-                "",
-                "On this validation set, Random Forest is clearly stronger on accuracy, "
-                "recall, micro-F1, and macro-F1. Weighted precision is similar for both "
-                "(both near ~0.78), which suggests Logistic Regression often abstains "
-                "from rare classes less cleanly—higher false negatives drag recall and F1.",
-                "",
-                "Macro-F1 emphasizes rare syndromes; micro-F1 / accuracy weight frequent "
-                "labels more heavily on this 148-class set.",
-                "",
-            ]
+
+    # Per-model one-liners ranked by accuracy
+    lines.append("## Ranking (validation accuracy)")
+    lines.append("")
+    for i, row in frame.iterrows():
+        lines.append(
+            f"{i + 1}. **{DISPLAY_NAMES.get(row['model'], row['model'])}** — "
+            f"accuracy={row['accuracy']:.4f}, precision={row['precision']:.4f}, "
+            f"recall={row['recall']:.4f}, micro_f1={row['micro_f1']:.4f}, "
+            f"macro_f1={row['macro_f1']:.4f}"
         )
-    (out_dir / "model_comparison.md").write_text("\n".join(lines), encoding="utf-8")
-    return out_path
+    lines.append("")
+    lines.append(
+        f"**Conclusion:** Among the three traditional ML algorithms trained so far, "
+        f"**{DISPLAY_NAMES.get(best['model'], best['model'])}** performs best on the "
+        f"validation set and is the preferred baseline before any deep-learning work. "
+        "The held-out test set remains sealed."
+    )
+    lines.append("")
+
+    md_path = out_dir / "model_comparison.md"
+    md_path.write_text("\n".join(lines), encoding="utf-8")
+    return {"csv": csv_path, "markdown": md_path, "figure": fig_path}
