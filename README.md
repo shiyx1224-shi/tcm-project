@@ -4,7 +4,7 @@ Teaching workbench for traditional Chinese medicine (TCM) **syndrome differentia
 
 Educational instrument only. It does **not** diagnose, prescribe, or replace a licensed clinician.
 
-**Intended GitHub home:** [github.com/shiyx1224-shi/ds340wproject](https://github.com/shiyx1224-shi/ds340wproject)
+**GitHub home:** [github.com/shiyx1224-shi/tcm-project](https://github.com/shiyx1224-shi/tcm-project)
 
 ## Public research dataset (required link)
 

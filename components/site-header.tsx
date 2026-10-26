@@ -60,14 +60,14 @@ export function SiteFooter() {
         probability and it is not the accuracy reported by the parent studies.
       </p>
       <p className="mt-2">
-        DS340W · Si Zhen Desk · intended repo{" "}
+        DS340W · Si Zhen Desk ·{" "}
         <a
           className="underline-offset-2 hover:underline"
-          href="https://github.com/shiyx1224-shi/ds340wproject"
+          href="https://github.com/shiyx1224-shi/tcm-project"
           target="_blank"
           rel="noreferrer"
         >
-          shiyx1224-shi/ds340wproject
+          shiyx1224-shi/tcm-project
         </a>
       </p>
     </footer>
