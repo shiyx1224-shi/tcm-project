@@ -6,6 +6,15 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 
 **Intended GitHub home:** [github.com/shiyx1224-shi/ds340wproject](https://github.com/shiyx1224-shi/ds340wproject)
 
+## Public research dataset (required link)
+
+**Dataset:** TCM-SD (54,152 real clinical records → 148 syndrome labels)  
+**Public link:** https://github.com/Borororo/ZY-BERT  
+**License:** CC BY-NC-SA 4.0 (dataset; non-commercial research with attribution)  
+**Paper:** Ren et al., CCL 2022 — https://aclanthology.org/2022.ccl-1.80/  
+**Local copy / schema / download steps:** [`DATASET.md`](DATASET.md) · files under `data/raw/TCM-SD/`  
+**Re-download:** `bash scripts/download_tcm_sd.sh`
+
 ## Parent papers
 
 | # | Paper | What this desk takes |
@@ -50,4 +59,5 @@ npm run build
 
 This is a reproduction-style project: we implement the *ideas* from the three parent papers (multi-label reading, sparse four examinations with crosses, holistic constraints) as an interactive teaching instrument with transparent scoring, not a black-box retrain of their neural models on proprietary clinical data.
 
-**Research foundation (verified citations, datasets, metrics, adaptation notes):** see [`docs/parent_papers.md`](docs/parent_papers.md).
+**Research foundation (verified citations, parent-paper methods):** [`docs/parent_papers.md`](docs/parent_papers.md)  
+**Selected public dataset (link, license, features):** [`DATASET.md`](DATASET.md)
