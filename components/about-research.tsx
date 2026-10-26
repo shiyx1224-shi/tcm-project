@@ -69,6 +69,15 @@ export function AboutResearch() {
       </section>
 
       <section className="mt-10 space-y-3">
+        <h2 className="font-heading text-xl text-ink">Site visual language</h2>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          The teaching UI uses a restrained 中医五色 palette: rice-paper white (白), ink black (黑) for primary
+          actions, muted yellow (黄) for borders, cinnabar (赤) for rare alerts, and slate-blue (青) for small
+          labels—kept quiet so the site reads as a research desk, not a decorative motif board.
+        </p>
+      </section>
+
+      <section className="mt-10 space-y-3">
         <h2 className="font-heading text-xl text-ink">Limitations</h2>
         <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">
           <li>Deep models are adaptations; parent hospital corpora are not public.</li>

@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { withBasePath } from "@/lib/base-path"
 
 const validationRows = [
   { model: "SVM (LinearSVC)", accuracy: "0.7517", micro: "0.7517", macro: "0.4745", selected: true },
@@ -132,7 +133,13 @@ function Figure({ src, alt, caption }: { src: string; alt: string; caption: stri
   return (
     <figure className="overflow-hidden rounded-xl border border-wood/30 bg-card">
       <div className="relative aspect-[16/9] w-full bg-secondary/40">
-        <Image src={src} alt={alt} fill className="object-contain p-3" sizes="(max-width: 1024px) 100vw, 960px" />
+        <Image
+          src={withBasePath(src)}
+          alt={alt}
+          fill
+          className="object-contain p-3"
+          sizes="(max-width: 1024px) 100vw, 960px"
+        />
       </div>
       <figcaption className="border-t border-wood/20 px-4 py-3 text-sm text-muted-foreground">{caption}</figcaption>
     </figure>

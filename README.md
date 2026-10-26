@@ -131,7 +131,7 @@ npm run lint
 npm run build
 ```
 
-Surfaces: Chart, Sample charts, Pattern atlas, Teaching lab, Parent papers. Lenses: Holistic / Kidney / Stomach / Dysmenorrhea.
+Surfaces: Home, Syndrome Explorer (chart + pattern atlas), Research Results, About Research. Old routes `/cases`, `/atlas`, `/lab`, and `/papers` redirect. Explorer lenses: Holistic / Kidney / Stomach / Dysmenorrhea.
 
 ---
 
