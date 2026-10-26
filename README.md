@@ -49,3 +49,5 @@ npm run build
 ## Course note (DS340W)
 
 This is a reproduction-style project: we implement the *ideas* from the three parent papers (multi-label reading, sparse four examinations with crosses, holistic constraints) as an interactive teaching instrument with transparent scoring, not a black-box retrain of their neural models on proprietary clinical data.
+
+**Research foundation (verified citations, datasets, metrics, adaptation notes):** see [`docs/parent_papers.md`](docs/parent_papers.md).
