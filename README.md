@@ -1,4 +1,4 @@
-# Si Zhen Desk · DS340W TCM Syndrome Classification
+# TCM Syndrome Desk · DS340W TCM Syndrome Classification
 
 Teaching workbench and machine-learning study for traditional Chinese medicine (TCM) **syndrome differentiation** (辨证).
 
@@ -112,9 +112,9 @@ python scripts/predict_syndrome_svm.py \
 
 ---
 
-## Teaching UI (Si Zhen Desk)
+## Teaching UI (TCM Syndrome Desk)
 
-Interactive four-examination desk (not the TCM-SD classifier):
+Interactive four-examination desk for syndrome differentiation teaching (not the TCM-SD ML classifier):
 
 ```bash
 npm install

@@ -23,8 +23,8 @@ export function SiteHeader() {
             辨
           </span>
           <span>
-            <span className="font-heading block text-lg leading-none tracking-tight">Si Zhen Desk</span>
-            <span className="text-xs text-muted-foreground">Four examinations · multi-label patterns</span>
+            <span className="font-heading block text-lg leading-none tracking-tight">TCM Syndrome Desk</span>
+            <span className="text-xs text-muted-foreground">Four examinations · syndrome differentiation</span>
           </span>
         </Link>
         <nav className="flex gap-1 overflow-x-auto">
@@ -60,7 +60,7 @@ export function SiteFooter() {
         probability and it is not the accuracy reported by the parent studies.
       </p>
       <p className="mt-2">
-        DS340W · Si Zhen Desk ·{" "}
+        DS340W · TCM Syndrome Desk ·{" "}
         <a
           className="underline-offset-2 hover:underline"
           href="https://github.com/shiyx1224-shi/tcm-project"

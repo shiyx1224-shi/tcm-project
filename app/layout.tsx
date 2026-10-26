@@ -27,11 +27,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Si Zhen Desk",
-    template: "%s · Si Zhen Desk",
+    default: "TCM Syndrome Desk",
+    template: "%s · TCM Syndrome Desk",
   },
   description:
-    "A teaching workbench for traditional Chinese medicine syndrome differentiation, built from three parent papers on multi-label, sparse, and holistic pattern classification.",
+    "Teaching UI for traditional Chinese medicine syndrome differentiation — four-examination charting for the DS340W TCM-SD project.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
