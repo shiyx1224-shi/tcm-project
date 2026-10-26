@@ -121,7 +121,8 @@ npm install
 npm run dev
 ```
 
-Open [http://127.0.0.1:4317](http://127.0.0.1:4317).
+Open [https://github.com/shiyx1224-shi/tcm-project](https://github.com/shiyx1224-shi/tcm-project).  
+(Local teaching UI after `npm run dev`: port `4317`.)
 
 ```bash
 npm run check
