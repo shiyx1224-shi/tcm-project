@@ -121,7 +121,9 @@ npm install
 npm run dev
 ```
 
-Open [http://127.0.0.1:4317](http://127.0.0.1:4317).
+Open the live teaching UI: [https://shiyx1224-shi.github.io/tcm-project/](https://shiyx1224-shi.github.io/tcm-project/).
+
+For local development after `npm run dev`, the same app is also at `http://127.0.0.1:4317`.
 
 ```bash
 npm run check
