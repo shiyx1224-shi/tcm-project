@@ -22,7 +22,8 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `results/figures/model_comparison.png` · `python scripts/compare_models.py`  
 **Feature selection experiment:** [`docs/feature_selection_experiment.md`](docs/feature_selection_experiment.md) · `python scripts/run_feature_selection_experiment.py`  
 **Huang-inspired CNN (adapted Cross-FGCNN):** [`docs/huang_cnn.md`](docs/huang_cnn.md) · `python scripts/train_huang_cnn.py`  
-**Chen-inspired BERT+CNN (adapted TCM-BERT-CNN):** [`docs/chen_bert_cnn.md`](docs/chen_bert_cnn.md) · `python scripts/train_chen_bert_cnn.py`
+**Chen-inspired BERT+CNN (adapted TCM-BERT-CNN):** [`docs/chen_bert_cnn.md`](docs/chen_bert_cnn.md) · `python scripts/train_chen_bert_cnn.py`  
+**Final evaluation (validation selection → held-out test):** [`docs/final_evaluation.md`](docs/final_evaluation.md) · `python scripts/run_final_evaluation.py`
 
 ## Parent papers
 
@@ -82,7 +83,8 @@ python scripts/compare_models.py
 Artifacts: `artifacts/models/{random_forest,logistic_regression,svm,huang_cnn,chen_bert_cnn}/`.  
 Comparison: `results/metrics/model_comparison.csv`, `results/figures/model_comparison.png`.
 
-Feature-selection ablation: `python scripts/run_feature_selection_experiment.py`.
+Feature-selection ablation: `python scripts/run_feature_selection_experiment.py`.  
+Final report (integrity + test for the validation winner): `python scripts/run_final_evaluation.py`.
 
 ## Course note (DS340W)
 

@@ -1,0 +1,29 @@
+{
+  "task_type": "multiclass",
+  "n_samples": 10777,
+  "n_classes_in_encoder": 148,
+  "accuracy": 0.754848288020785,
+  "precision_macro": 0.45589744652554437,
+  "precision_weighted": 0.8136830604279911,
+  "recall_macro": 0.6038081158265929,
+  "recall_weighted": 0.754848288020785,
+  "f1_micro": 0.754848288020785,
+  "f1_macro": 0.4991916089637682,
+  "f1_weighted": 0.7713684363468952,
+  "precision": 0.8136830604279911,
+  "recall": 0.754848288020785,
+  "micro_f1": 0.754848288020785,
+  "macro_f1": 0.4991916089637682,
+  "multilabel_metrics": {
+    "applicable": false,
+    "reason": "TCM-SD is single-label multiclass (one norm_syndrome per row).",
+    "exact_match_accuracy": null,
+    "hamming_loss": null
+  },
+  "selection": {
+    "model": "svm",
+    "based_on": "validation",
+    "metric": "micro_f1"
+  },
+  "integrity_ok": true
+}

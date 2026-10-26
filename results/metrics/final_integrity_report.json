@@ -1,0 +1,75 @@
+{
+  "overlap_checks": {
+    "ok": true,
+    "checks": {
+      "patient_user_id": {
+        "train∩validation": 0,
+        "train∩test": 0,
+        "validation∩test": 0
+      },
+      "case_fingerprint": {
+        "train∩validation": 0,
+        "train∩test": 0,
+        "validation∩test": 0
+      },
+      "leakage_group": {
+        "train∩validation": 0,
+        "train∩test": 0,
+        "validation∩test": 0
+      }
+    }
+  },
+  "feature_leakage_checks": {
+    "ok": true,
+    "feature_columns": [
+      "chief_complaint",
+      "description",
+      "detection"
+    ],
+    "banned_present": [],
+    "recommended_text_features": [
+      "chief_complaint",
+      "description",
+      "detection"
+    ],
+    "target": "norm_syndrome"
+  },
+  "partition_sizes": {
+    "train": {
+      "n_rows": 37955,
+      "n_patients": 36646,
+      "n_fingerprints": 33721,
+      "n_labels": 148
+    },
+    "validation": {
+      "n_rows": 5420,
+      "n_patients": 5225,
+      "n_fingerprints": 4817,
+      "n_labels": 148
+    },
+    "test": {
+      "n_rows": 10777,
+      "n_patients": 10424,
+      "n_fingerprints": 9637,
+      "n_labels": 148
+    }
+  },
+  "preprocessor": {
+    "n_classes_fit_on_train": 148,
+    "select_k": 5000,
+    "text_features": [
+      "chief_complaint",
+      "description",
+      "detection"
+    ]
+  },
+  "test_matrix": {
+    "X_shape": [
+      10777,
+      5000
+    ],
+    "n_labels": 10777,
+    "n_unknown_labels": 0
+  },
+  "ok": true
+}
