@@ -42,7 +42,9 @@
   --color-card: var(--card);
   --color-ink: var(--ink);
   --color-cinnabar: var(--cinnabar);
-  --color-wood: var(--wood);
+  --color-wood: var(--huang);
+  --color-huang: var(--huang);
+  --color-qing: var(--qing);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -53,46 +55,54 @@
 }
 
 :root {
-  /* TCM research-lab palette */
-  --rice: #f5f1e8;
-  --herbal: #426653;
-  --ink: #27362d;
-  --wood: #956f4d;
-  --cinnabar: #a6483e;
-  --warm-white: #fffcf7;
+  /*
+    中医五色 — restrained research UI
+    白 white · 黑 black · 黄 yellow · 赤 red · 青 cyan-blue
+    Dominant: 白 + 黑. 黄 borders. 赤 / 青 used sparingly.
+  */
+  --bai: #faf8f4;
+  --hei: #1c1c1c;
+  --huang: #c4a36a;
+  --chi: #9e3b32;
+  --qing: #4f6b75;
 
-  --background: #f5f1e8;
-  --foreground: #27362d;
-  --card: #fffcf7;
-  --card-foreground: #27362d;
-  --popover: #fffcf7;
-  --popover-foreground: #27362d;
-  --primary: #426653;
-  --primary-foreground: #fffcf7;
-  --secondary: #ebe6da;
-  --secondary-foreground: #27362d;
-  --muted: #ebe6da;
-  --muted-foreground: #5a6b60;
-  --accent: #e4eee8;
-  --accent-foreground: #27362d;
-  --destructive: #a6483e;
-  --border: #d4c4b0;
-  --input: #d4c4b0;
-  --ring: #426653;
-  --chart-1: #426653;
-  --chart-2: #27362d;
-  --chart-3: #956f4d;
-  --chart-4: #a6483e;
-  --chart-5: #6b8f7a;
+  --warm-white: #ffffff;
+  --ink: #1c1c1c;
+  --cinnabar: #9e3b32;
+  --wood: #c4a36a;
+
+  --background: #faf8f4;
+  --foreground: #1c1c1c;
+  --card: #ffffff;
+  --card-foreground: #1c1c1c;
+  --popover: #ffffff;
+  --popover-foreground: #1c1c1c;
+  --primary: #1c1c1c;
+  --primary-foreground: #faf8f4;
+  --secondary: #f1ebe3;
+  --secondary-foreground: #1c1c1c;
+  --muted: #f1ebe3;
+  --muted-foreground: #5e5a54;
+  --accent: #f6f0e6;
+  --accent-foreground: #1c1c1c;
+  --destructive: #9e3b32;
+  --border: #e2d8ca;
+  --input: #e2d8ca;
+  --ring: #4f6b75;
+  --chart-1: #1c1c1c;
+  --chart-2: #4f6b75;
+  --chart-3: #c4a36a;
+  --chart-4: #9e3b32;
+  --chart-5: #8a8580;
   --radius: 0.45rem;
-  --sidebar: #fffcf7;
-  --sidebar-foreground: #27362d;
-  --sidebar-primary: #426653;
-  --sidebar-primary-foreground: #fffcf7;
-  --sidebar-accent: #ebe6da;
-  --sidebar-accent-foreground: #27362d;
-  --sidebar-border: #d4c4b0;
-  --sidebar-ring: #426653;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1c1c1c;
+  --sidebar-primary: #1c1c1c;
+  --sidebar-primary-foreground: #faf8f4;
+  --sidebar-accent: #f1ebe3;
+  --sidebar-accent-foreground: #1c1c1c;
+  --sidebar-border: #e2d8ca;
+  --sidebar-ring: #4f6b75;
 }
 
 @layer base {
@@ -105,10 +115,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-color: #f5f1e8;
-    background-image:
-      linear-gradient(180deg, rgba(66, 102, 83, 0.04), transparent 42%),
-      radial-gradient(ellipse 900px 420px at 0% 0%, rgba(149, 111, 77, 0.06), transparent 55%);
+    background-color: var(--bai);
+    background-image: linear-gradient(180deg, rgba(196, 163, 106, 0.05), transparent 40%);
     min-height: 100%;
   }
   h1,
@@ -126,12 +134,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid color-mix(in srgb, var(--cinnabar) 55%, transparent);
-  color: var(--cinnabar);
+  border: 1px solid color-mix(in srgb, var(--chi) 55%, transparent);
+  color: var(--chi);
   font-family: var(--font-cjk);
   line-height: 1;
 }
 
 .workflow-rail {
-  border-top: 1px solid color-mix(in srgb, var(--wood) 35%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--huang) 35%, transparent);
 }

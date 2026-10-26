@@ -12,7 +12,7 @@ const validationRows = [
 export function ResearchResults() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <p className="text-xs tracking-[0.16em] text-primary uppercase">Research Results</p>
+      <p className="text-xs tracking-[0.16em] text-qing uppercase">Research Results</p>
       <h1 className="font-heading mt-1 text-3xl tracking-tight text-ink">Measured ML evaluation</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
         All figures below are from the TCM-SD experiments in this repository. Model selection used validation
@@ -113,7 +113,7 @@ function MetricCard({ title, lines, accent }: { title: string; lines: string[]; 
   return (
     <div
       className={`rounded-xl border p-5 ${
-        accent ? "border-primary/40 bg-[color-mix(in_srgb,var(--herbal)_8%,var(--warm-white))]" : "border-wood/30 bg-card"
+        accent ? "border-qing/40 bg-[color-mix(in_srgb,var(--qing)_8%,white)]" : "border-wood/30 bg-card"
       }`}
     >
       <h3 className="font-heading text-base text-ink">{title}</h3>

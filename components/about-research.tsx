@@ -3,7 +3,7 @@ import Link from "next/link"
 export function AboutResearch() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <p className="text-xs tracking-[0.16em] text-primary uppercase">About Research</p>
+      <p className="text-xs tracking-[0.16em] text-qing uppercase">About Research</p>
       <h1 className="font-heading mt-1 text-3xl tracking-tight text-ink">Study context and sources</h1>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
         DS340W project on public TCM-SD syndrome classification, with a teaching desk for four-examination pattern

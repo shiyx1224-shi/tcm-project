@@ -112,7 +112,7 @@ export function SyndromeExplorer({
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-xs tracking-[0.16em] text-primary uppercase">Syndrome Explorer</p>
+          <p className="text-xs tracking-[0.16em] text-qing uppercase">Syndrome Explorer</p>
           <h1 className="font-heading mt-1 text-2xl tracking-tight text-ink sm:text-3xl">
             Four examinations · teaching demonstration
           </h1>
@@ -156,7 +156,7 @@ export function SyndromeExplorer({
             <section className="space-y-5">
               <div className="rounded-xl border border-wood/30 bg-card p-4">
                 <h2 className="font-heading text-lg text-ink">
-                  <span className="mr-2 text-sm text-primary">Step 1</span>
+                  <span className="mr-2 text-sm text-qing">Step 1</span>
                   Enter symptoms
                 </h2>
 
@@ -298,7 +298,7 @@ export function SyndromeExplorer({
 
               <div className="rounded-xl border border-wood/30 bg-card p-4">
                 <h2 className="font-heading text-lg text-ink">
-                  <span className="mr-2 text-sm text-primary">Step 2</span>
+                  <span className="mr-2 text-sm text-qing">Step 2</span>
                   Analyze
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -319,7 +319,7 @@ export function SyndromeExplorer({
             <aside className="lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-auto">
               <div className="mb-3">
                 <h2 className="font-heading text-lg text-ink">
-                  <span className="mr-2 text-sm text-primary">Step 3</span>
+                  <span className="mr-2 text-sm text-qing">Step 3</span>
                   Explore results
                 </h2>
               </div>

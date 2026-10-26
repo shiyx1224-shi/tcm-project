@@ -17,7 +17,7 @@ export function HomeLanding() {
           aria-hidden
           className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-[radial-gradient(circle_at_70%_40%,rgba(66,102,83,0.1),transparent_70%)]"
         />
-        <p className="font-cjk text-sm tracking-[0.2em] text-primary">中医辨证 · 机器学习研究</p>
+        <p className="font-cjk text-sm tracking-[0.2em] text-qing">中医辨证 · 机器学习研究</p>
         <h1 className="font-heading mt-3 max-w-3xl text-3xl leading-tight tracking-tight text-ink sm:text-4xl">
           Traditional Chinese Medicine Syndrome Classification
         </h1>
