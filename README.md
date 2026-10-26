@@ -1,56 +1,120 @@
-# Si Zhen Desk · DS340W
+# Si Zhen Desk · DS340W TCM Syndrome Classification
 
-Teaching workbench for traditional Chinese medicine (TCM) **syndrome differentiation** (辨证). You chart signs from the four examinations (四诊); the desk returns every pattern that fits instead of forcing one class.
+Teaching workbench and machine-learning study for traditional Chinese medicine (TCM) **syndrome differentiation** (辨证).
 
-Educational instrument only. It does **not** diagnose, prescribe, or replace a licensed clinician.
+Educational / research instrument only. It does **not** diagnose, prescribe, or replace a licensed clinician.
 
-**GitHub home:** [github.com/shiyx1224-shi/tcm-project](https://github.com/shiyx1224-shi/tcm-project)
+**GitHub:** [github.com/shiyx1224-shi/tcm-project](https://github.com/shiyx1224-shi/tcm-project)
 
-## Public research dataset (required link)
+---
 
-**Dataset:** TCM-SD (54,152 real clinical records → 148 syndrome labels)  
-**Public link:** https://github.com/Borororo/ZY-BERT  
-**License:** CC BY-NC-SA 4.0 (dataset; non-commercial research with attribution)  
-**Paper:** Ren et al., CCL 2022 — https://aclanthology.org/2022.ccl-1.80/  
-**Local copy / schema / download steps:** [`DATASET.md`](DATASET.md) · files under `data/raw/TCM-SD/`  
-**Re-download:** `bash scripts/download_tcm_sd.sh`  
-**EDA notebook (no training):** [`notebooks/01_data_exploration.ipynb`](notebooks/01_data_exploration.ipynb)  
-**Split + preprocess:** [`docs/preprocessing.md`](docs/preprocessing.md) · `python scripts/run_preprocess.py`  
-**Random Forest baseline (multiclass):** [`docs/random_forest.md`](docs/random_forest.md) · `python scripts/train_random_forest.py` · `python scripts/predict_syndrome.py`  
-**Logistic Regression (same split/features):** [`docs/logistic_regression.md`](docs/logistic_regression.md) · `python scripts/train_logistic_regression.py`  
-**SVM / LinearSVC (same split/features):** [`docs/svm.md`](docs/svm.md) · `python scripts/train_svm.py`  
-**Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `results/figures/model_comparison.png` · `python scripts/compare_models.py`  
-**Feature selection experiment:** [`docs/feature_selection_experiment.md`](docs/feature_selection_experiment.md) · `python scripts/run_feature_selection_experiment.py`  
-**Huang-inspired CNN (adapted Cross-FGCNN):** [`docs/huang_cnn.md`](docs/huang_cnn.md) · `python scripts/train_huang_cnn.py`  
-**Chen-inspired BERT+CNN (adapted TCM-BERT-CNN):** [`docs/chen_bert_cnn.md`](docs/chen_bert_cnn.md) · `python scripts/train_chen_bert_cnn.py`  
-**Final evaluation (validation selection → held-out test):** [`docs/final_evaluation.md`](docs/final_evaluation.md) · `python scripts/run_final_evaluation.py`
+## Research question
 
-## Parent papers
+> How accurately can machine learning models classify TCM syndromes based on patients’ symptoms and clinical data?
 
-| # | Paper | What this desk takes |
-|---|-------|----------------------|
-| 1 | Gong, Jiang, Chen, and Qi. *A syndrome differentiation model of TCM based on multi-label deep forest using biomedical text mining.* Frontiers in Genetics, 2023. [doi:10.3389/fgene.2023.1272016](https://doi.org/10.3389/fgene.2023.1272016) | Multi-label syndromes; synonym-normalized symptoms; set metrics (Hamming, one-error, AP) on small charts |
-| 2 | Huang, Miao, Chen, Zhong, Yang, Ma, and Wen. *A traditional Chinese medicine syndrome classification model based on cross-feature generation by convolution neural network.* JMIR Medical Informatics, 2022. [doi:10.2196/29290](https://doi.org/10.2196/29290) | Four-examination structure; sparse tongue/pulse; named cross features; dysmenorrhea pattern family |
-| 3 | Chen, Zhang, Liu, Wang, Jin, Yang, and Zhang. *Traditional Chinese medicine diagnostic prediction model for holistic syndrome differentiation based on deep learning.* Integrative Medicine Research, 2024. [doi:10.1016/j.imr.2023.101019](https://doi.org/10.1016/j.imr.2023.101019) | Holistic principles/organs/pathology; competing pairs (exterior–interior, cold–heat, deficiency–excess); symptom co-occurrence view |
+This repo answers that question on the **public TCM-SD** benchmark with a leakage-aware 70/10/20 split, traditional ML baselines, feature-selection ablations, parent-paper–inspired deep models (adaptations, not exact reproductions), and a locked held-out **test** evaluation of the validation winner.
 
-The live score is a **weighted pattern profile**, not a retrained deep forest, CNN, or BERT model. Hospital and guideline corpora from the papers are not in this repository; published accuracies are not claimed here.
+---
 
-## App surfaces
+## Three verified parent papers
 
-- **Chart** — select symptoms by examination, or parse a free-text description into the dictionary
-- **Sample charts** — original teaching narratives (kidney, stomach, dysmenorrhea, holistic)
-- **Pattern atlas** — which key signs travel together
-- **Teaching lab** — multi-label metrics vs overlap / ML-kNN baselines on the teaching set
-- **Parent papers** — how each study maps onto the desk
+| # | Citation | Method borrowed |
+|---|----------|-----------------|
+| 1 | Gong, Jiang, Chen, and Qi. *A syndrome differentiation model of TCM based on multi-label deep forest using biomedical text mining.* Frontiers in Genetics, 2023. [doi:10.3389/fgene.2023.1272016](https://doi.org/10.3389/fgene.2023.1272016) | Multi-label framing; Pearson-inspired symptom ranking (PCC-MLRF **adapted**; full MLDF not used — TCM-SD is multiclass) |
+| 2 | Huang, Miao, Chen, Zhong, Yang, Ma, and Wen. *A traditional Chinese medicine syndrome classification model based on cross-feature generation by convolution neural network.* JMIR Medical Informatics, 2022. [doi:10.2196/29290](https://doi.org/10.2196/29290) | Cross network + FGCNN-style CNN (**AdaptedCrossFGCNN**; not Huang’s 60-field dysmenorrhea data) |
+| 3 | Chen, Zhang, Liu, Wang, Jin, Yang, and Zhang. *Traditional Chinese medicine diagnostic prediction model for holistic syndrome differentiation based on deep learning.* Integrative Medicine Research, 2024. [doi:10.1016/j.imr.2023.101019](https://doi.org/10.1016/j.imr.2023.101019) | BERT + TextCNN over clinical text (**adapted** frozen Chinese BERT-family encoder; not Chen’s 21-label constraint head) |
 
-## Lenses
+Full methodology notes: [`docs/parent_papers.md`](docs/parent_papers.md).
 
-- **Holistic** — eight principles, organ location, and pathology
-- **Kidney disease** — spleen-kidney yang/yin deficiency, liver-kidney yin deficiency, damp turbidity (may co-exist)
-- **Stomach disease** — deficiency cold, liver-stomach disharmony, stomach yin deficiency, damp-heat, food stagnation
-- **Dysmenorrhea** — nine period-pain patterns, including mixed cold, stasis, deficiency, and damp-heat
+---
 
-## Run locally
+## Public dataset link
+
+| Item | Value |
+|------|-------|
+| **Dataset** | TCM-SD (54,152 clinical records → 148 `norm_syndrome` labels) |
+| **Public link** | **https://github.com/Borororo/ZY-BERT** |
+| **License** | CC BY-NC-SA 4.0 (dataset; non-commercial research with attribution) |
+| **Paper** | Ren et al., CCL 2022 — https://aclanthology.org/2022.ccl-1.80/ |
+| **Local path** | `data/raw/TCM-SD/` |
+| **Details** | [`DATASET.md`](DATASET.md) |
+
+```bash
+bash scripts/download_tcm_sd.sh
+```
+
+---
+
+## Methods (ML track)
+
+1. **Leakage-aware split** — 70% train / 10% validation / 20% test by patient + clinical-text fingerprint groups (`random_state=42`).
+2. **Train-only preprocessing** — char TF-IDF + length features + bins; `SelectKBest(chi2, k=5000)` fit on train only.
+3. **Traditional ML** — Random Forest, Logistic Regression, Linear SVM on the same matrices.
+4. **Feature selection ablation** — variance truncate vs mutual information / ExtraTrees importance / Gong-inspired Pearson filter (train labels only).
+5. **Deep adaptations** — Huang-inspired Cross-FGCNN; Chen-inspired BERT+TextCNN.
+6. **Final protocol** — choose best model by **validation micro-F1**, then score **test once**.
+
+---
+
+## Experimental results (measured)
+
+Validation leaderboard (`results/metrics/model_comparison.csv`):
+
+| Model | Accuracy | Micro-F1 | Macro-F1 |
+|-------|---------:|---------:|---------:|
+| **SVM (LinearSVC)** | **0.7517** | **0.7517** | **0.4745** |
+| Random Forest | 0.7314 | 0.7314 | 0.4312 |
+| Logistic Regression | 0.5120 | 0.5120 | 0.3316 |
+| Chen-inspired BERT+CNN | 0.5007 | 0.5007 | 0.2521 |
+| Huang-inspired CNN | 0.4635 | 0.4635 | 0.2112 |
+
+**Selected model (validation only): SVM.** Held-out test (n=10,777):
+
+| Split | Accuracy | Precision | Recall | Micro-F1 | Macro-F1 |
+|-------|---------:|----------:|-------:|---------:|---------:|
+| Validation | 0.7517 | 0.8187 | 0.7517 | 0.7517 | 0.4745 |
+| **Test** | **0.7548** | **0.8137** | **0.7548** | **0.7548** | **0.4992** |
+
+Feature selection did **not** uniformly improve micro-F1; adapted deep models did **not** beat TF-IDF SVM/RF on this setup. Full discussion: [`docs/final_evaluation.md`](docs/final_evaluation.md).
+
+Figures: `results/figures/model_comparison.png`, `results/figures/final_*.png`.
+
+---
+
+## Install and run (ML)
+
+```bash
+python -m pip install -r requirements.txt
+bash scripts/download_tcm_sd.sh
+python scripts/run_preprocess.py
+python scripts/check_splits.py
+python scripts/train_random_forest.py
+python scripts/train_logistic_regression.py
+python scripts/train_svm.py
+python scripts/compare_models.py
+python scripts/run_feature_selection_experiment.py   # optional ablation
+python scripts/train_huang_cnn.py                    # optional deep adaptation
+python scripts/train_chen_bert_cnn.py                # optional deep adaptation
+python scripts/run_final_evaluation.py               # validation winner → test once
+python scripts/smoke_test_ml.py                      # link/load/leakage/results smoke check
+```
+
+`requirements-ml.txt` redirects to `requirements.txt` for older commands.
+
+Predict with the selected SVM pipeline (after `train_svm.py`):
+
+```bash
+python scripts/predict_syndrome_svm.py \
+  --chief-complaint "头痛，头晕" \
+  --description "患者头痛头晕三日，伴恶心。" \
+  --detection "舌淡红，苔薄白，脉弦。"
+```
+
+---
+
+## Teaching UI (Si Zhen Desk)
+
+Interactive four-examination desk (not the TCM-SD classifier):
 
 ```bash
 npm install
@@ -60,35 +124,29 @@ npm run dev
 Open [http://127.0.0.1:4317](http://127.0.0.1:4317).
 
 ```bash
-npm run check   # sample-chart rank checks + teaching-set metrics
+npm run check
 npm run lint
 npm run build
 ```
 
-## ML baselines (TCM-SD)
+Surfaces: Chart, Sample charts, Pattern atlas, Teaching lab, Parent papers. Lenses: Holistic / Kidney / Stomach / Dysmenorrhea.
 
-TCM-SD is **single-label multiclass** (one `norm_syndrome` per row). Models share the same leakage-aware 70/10/20 partitions and are scored on validation. **Test is not used for model selection.**
+---
 
-```bash
-pip install -r requirements-ml.txt
-python scripts/run_preprocess.py          # if data/processed is empty
-python scripts/train_random_forest.py
-python scripts/train_logistic_regression.py
-python scripts/train_svm.py
-python scripts/train_huang_cnn.py         # Huang 2022–inspired CNN (adaptation)
-python scripts/train_chen_bert_cnn.py     # Chen 2024–inspired BERT+CNN (adaptation)
-python scripts/compare_models.py
-```
+## Repository hygiene
 
-Artifacts: `artifacts/models/{random_forest,logistic_regression,svm,huang_cnn,chen_bert_cnn}/`.  
-Comparison: `results/metrics/model_comparison.csv`, `results/figures/model_comparison.png`.
+- **Not committed:** `/uploads` (local parent PDFs), extracted `train.json`/`dev.json`, large `*.npz` / row parquets / model `*.joblib`/`*.pt`, caches, `.env*`, tokens.
+- **Committed:** public sample/zip/test.json, metrics CSVs/JSON, figures, docs, training code.
+- Do not add private clinical dumps or API tokens to git.
 
-Feature-selection ablation: `python scripts/run_feature_selection_experiment.py`.  
-Final report (integrity + test for the validation winner): `python scripts/run_final_evaluation.py`.
+---
 
-## Course note (DS340W)
+## Doc index
 
-This is a reproduction-style project: we implement the *ideas* from the three parent papers (multi-label reading, sparse four examinations with crosses, holistic constraints) as an interactive teaching instrument with transparent scoring, not a black-box retrain of their neural models on proprietary clinical data. The Random Forest path above is the first supervised baseline on the public TCM-SD release.
-
-**Research foundation (verified citations, parent-paper methods):** [`docs/parent_papers.md`](docs/parent_papers.md)  
-**Selected public dataset (link, license, features):** [`DATASET.md`](DATASET.md)
+| Doc | Contents |
+|-----|----------|
+| [`DATASET.md`](DATASET.md) | Dataset choice, license, schema, download |
+| [`docs/parent_papers.md`](docs/parent_papers.md) | Verified parent-paper methods |
+| [`docs/preprocessing.md`](docs/preprocessing.md) | Split + preprocess |
+| [`docs/final_evaluation.md`](docs/final_evaluation.md) | Selection, test, discussion |
+| [`docs/huang_cnn.md`](docs/huang_cnn.md) / [`docs/chen_bert_cnn.md`](docs/chen_bert_cnn.md) | Deep adaptations |

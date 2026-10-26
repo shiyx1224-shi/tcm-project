@@ -64,7 +64,7 @@ Best checkpoint was epoch 2 (val accuracy 0.5007). Trails TF-IDF SVM/RF on this 
 ## Commands
 
 ```bash
-pip install -r requirements-ml.txt
+pip install -r requirements.txt
 python scripts/train_chen_bert_cnn.py
 python scripts/compare_models.py
 ```

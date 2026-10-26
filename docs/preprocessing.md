@@ -28,7 +28,7 @@ Feature selection: `SelectKBest(chi2)` fit on training data only.
 ## Commands
 
 ```bash
-pip install -r requirements-ml.txt
+pip install -r requirements.txt
 # ensure raw JSON exists
 bash scripts/download_tcm_sd.sh
 python scripts/run_preprocess.py

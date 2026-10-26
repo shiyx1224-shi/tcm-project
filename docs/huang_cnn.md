@@ -46,7 +46,7 @@ TCM-SD text (3 columns)
 ## Commands
 
 ```bash
-pip install -r requirements-ml.txt
+pip install -r requirements.txt
 python scripts/train_huang_cnn.py --epochs 8
 python scripts/compare_models.py
 ```

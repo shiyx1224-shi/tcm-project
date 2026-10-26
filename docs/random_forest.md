@@ -24,7 +24,7 @@ Default hyperparameters: `n_estimators=100`, `max_depth=40`, `min_samples_leaf=2
 ## Commands
 
 ```bash
-pip install -r requirements-ml.txt
+pip install -r requirements.txt
 python scripts/run_preprocess.py          # if matrices are missing
 python scripts/train_random_forest.py
 python scripts/predict_syndrome.py \

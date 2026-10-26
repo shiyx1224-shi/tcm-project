@@ -13,6 +13,8 @@ https://tianchi.aliyun.com/dataset/139034
 
 Local copy (downloaded for this project): `data/raw/TCM-SD/`
 
+Install ML deps with `pip install -r requirements.txt`, then `bash scripts/download_tcm_sd.sh`.
+
 This document records verified accessibility, schema, license, and why alternatives were not chosen. **No models are trained here.**
 
 ---
