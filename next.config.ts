@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  /* Keep client interactivity reliable in this teaching app.
+     cacheComponents/partialPrefetching were leaving a static shell
+     without usable client event handlers in local testing. */
   turbopack: {
     rules: {
       "*.css": {
