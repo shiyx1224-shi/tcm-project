@@ -58,6 +58,8 @@ next-env.d.ts
 /artifacts/models/svm/*.joblib
 /artifacts/models/huang_cnn/*.pt
 /artifacts/models/huang_cnn/*.joblib
+/artifacts/models/chen_bert_cnn/*.pt
+/artifacts/cache/
 /artifacts/feature_selection/selector_*.joblib
 
 # Keep preprocessor joblib in artifacts; ignore Python caches

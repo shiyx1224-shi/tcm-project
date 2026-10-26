@@ -21,7 +21,8 @@ Educational instrument only. It does **not** diagnose, prescribe, or replace a l
 **SVM / LinearSVC (same split/features):** [`docs/svm.md`](docs/svm.md) · `python scripts/train_svm.py`  
 **Model comparison:** [`docs/model_comparison.md`](docs/model_comparison.md) · `results/metrics/model_comparison.csv` · `results/figures/model_comparison.png` · `python scripts/compare_models.py`  
 **Feature selection experiment:** [`docs/feature_selection_experiment.md`](docs/feature_selection_experiment.md) · `python scripts/run_feature_selection_experiment.py`  
-**Huang-inspired CNN (adapted Cross-FGCNN):** [`docs/huang_cnn.md`](docs/huang_cnn.md) · `python scripts/train_huang_cnn.py`
+**Huang-inspired CNN (adapted Cross-FGCNN):** [`docs/huang_cnn.md`](docs/huang_cnn.md) · `python scripts/train_huang_cnn.py`  
+**Chen-inspired BERT+CNN (adapted TCM-BERT-CNN):** [`docs/chen_bert_cnn.md`](docs/chen_bert_cnn.md) · `python scripts/train_chen_bert_cnn.py`
 
 ## Parent papers
 
@@ -73,11 +74,12 @@ python scripts/run_preprocess.py          # if data/processed is empty
 python scripts/train_random_forest.py
 python scripts/train_logistic_regression.py
 python scripts/train_svm.py
-python scripts/train_huang_cnn.py         # Huang 2022–inspired CNN (adaptation, not exact reproduction)
+python scripts/train_huang_cnn.py         # Huang 2022–inspired CNN (adaptation)
+python scripts/train_chen_bert_cnn.py     # Chen 2024–inspired BERT+CNN (adaptation)
 python scripts/compare_models.py
 ```
 
-Artifacts: `artifacts/models/{random_forest,logistic_regression,svm,huang_cnn}/`.  
+Artifacts: `artifacts/models/{random_forest,logistic_regression,svm,huang_cnn,chen_bert_cnn}/`.  
 Comparison: `results/metrics/model_comparison.csv`, `results/figures/model_comparison.png`.
 
 Feature-selection ablation: `python scripts/run_feature_selection_experiment.py`.

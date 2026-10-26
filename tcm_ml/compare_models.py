@@ -20,6 +20,7 @@ MODEL_DIRS = {
     "logistic_regression": ("artifacts", "models", "logistic_regression"),
     "svm": ("artifacts", "models", "svm"),
     "huang_cnn": ("artifacts", "models", "huang_cnn"),
+    "chen_bert_cnn": ("artifacts", "models", "chen_bert_cnn"),
 }
 
 DISPLAY_NAMES = {
@@ -27,6 +28,7 @@ DISPLAY_NAMES = {
     "logistic_regression": "Logistic Regression",
     "svm": "SVM (LinearSVC)",
     "huang_cnn": "Huang-inspired CNN",
+    "chen_bert_cnn": "Chen-inspired BERT+CNN",
 }
 
 
@@ -82,18 +84,25 @@ def write_comparison_figure(frame: pd.DataFrame, out_path: Path) -> Path:
         ("macro_f1", "Macro-F1"),
     ]
     # Stable display order (missing models skipped)
-    preferred = ["random_forest", "logistic_regression", "svm", "huang_cnn"]
+    preferred = [
+        "random_forest",
+        "logistic_regression",
+        "svm",
+        "huang_cnn",
+        "chen_bert_cnn",
+    ]
     models = [m for m in preferred if m in set(frame["model"])]
     models += [m for m in frame["model"] if m not in models]
 
     labels = [DISPLAY_NAMES.get(m, m) for m in models]
     x = range(len(plot_metrics))
-    width = 0.18
+    width = 0.15
     colors = {
         "random_forest": "#1f4e79",
         "logistic_regression": "#c45c26",
         "svm": "#2a6f4e",
         "huang_cnn": "#6b3fa0",
+        "chen_bert_cnn": "#a33b5a",
     }
 
     fig, ax = plt.subplots(figsize=(10.5, 5.2))
@@ -174,6 +183,9 @@ def write_model_comparison(root: Path | None = None) -> dict[str, Path]:
         "- **SVM** — linear support-vector classifier (`LinearSVC`, OvR, balanced).",
         "- **Huang-inspired CNN** — AdaptedCrossFGCNN (cross network + FGCNN-style CNN); "
         "**not** an exact reproduction of Huang et al. 2022 (different data/fields/labels).",
+        "- **Chen-inspired BERT+CNN** — frozen Chinese BERT + TextCNN multiclass head; "
+        "**not** an exact reproduction of Chen et al. 2024 TCM-BERT-CNN "
+        "(no Softmax-pair / Sigmoid multi-label constraint head; frozen encoder).",
         "",
     ]
 
