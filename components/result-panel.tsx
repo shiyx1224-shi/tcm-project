@@ -208,7 +208,7 @@ function PatternCard({
             <p className="text-xs text-muted-foreground">{syndrome.pinyin}</p>
           </div>
           <Badge variant={row.band === "suggested" ? "default" : "secondary"}>
-            {row.band === "suggested" ? "Suggested" : "Consider"} · {percent}
+            {row.band === "suggested" ? "Leading" : "Also fits"} · {percent}% coverage
           </Badge>
         </div>
       </CardHeader>

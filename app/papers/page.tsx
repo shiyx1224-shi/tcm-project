@@ -1,11 +1,5 @@
-import type { Metadata } from "next"
-import { PapersView } from "@/components/papers-view"
+import { redirect } from "next/navigation"
 
-export const metadata: Metadata = {
-  title: "Parent papers",
-  description: "How the syndrome workbench uses three TCM machine-learning papers.",
-}
-
-export default function PapersPage() {
-  return <PapersView />
+export default function PapersRedirect() {
+  redirect("/about")
 }

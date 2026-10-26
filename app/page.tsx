@@ -1,10 +1,14 @@
-import { Suspense } from "react"
-import { DeskGate } from "@/components/desk-gate"
+import { HomeLanding } from "@/components/home-landing"
+import { redirect } from "next/navigation"
 
-export default function Page() {
-  return (
-    <Suspense fallback={<p className="px-4 py-8 text-sm text-muted-foreground">Opening the chart…</p>}>
-      <DeskGate />
-    </Suspense>
-  )
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ case?: string }>
+}) {
+  const params = await searchParams
+  if (params.case) {
+    redirect(`/explorer?case=${encodeURIComponent(params.case)}`)
+  }
+  return <HomeLanding />
 }

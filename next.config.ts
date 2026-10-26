@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const isGitHubPages = process.env.GITHUB_PAGES === "1";
 
 const nextConfig: NextConfig = {
+  images: { unoptimized: true },
   /* Static export for the public GitHub Pages teaching UI. */
   ...(isGitHubPages
     ? {
@@ -10,7 +11,6 @@ const nextConfig: NextConfig = {
         basePath: "/tcm-project",
         assetPrefix: "/tcm-project",
         trailingSlash: true,
-        images: { unoptimized: true },
       }
     : {}),
   /* Keep client interactivity reliable in this teaching app.

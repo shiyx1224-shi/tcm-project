@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s · TCM Syndrome Desk",
   },
   description:
-    "Teaching UI for traditional Chinese medicine syndrome differentiation — four-examination charting for the DS340W TCM-SD project.",
+    "中医辨证 · 机器学习研究 — TCM syndrome classification research desk for DS340W / TCM-SD.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

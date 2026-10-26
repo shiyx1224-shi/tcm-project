@@ -1,11 +1,5 @@
-import type { Metadata } from "next"
-import { AtlasView } from "@/components/atlas-view"
+import { redirect } from "next/navigation"
 
-export const metadata: Metadata = {
-  title: "Pattern atlas",
-  description: "Key signs, contradicting signs, and teaching-set co-occurrence for each syndrome pattern.",
-}
-
-export default function AtlasPage() {
-  return <AtlasView />
+export default function AtlasRedirect() {
+  redirect("/explorer?tab=atlas")
 }

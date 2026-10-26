@@ -5,29 +5,28 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 const links = [
-  { href: "/", label: "Chart" },
-  { href: "/cases", label: "Sample charts" },
-  { href: "/atlas", label: "Pattern atlas" },
-  { href: "/lab", label: "Teaching lab" },
-  { href: "/papers", label: "Parent papers" },
+  { href: "/", label: "Home" },
+  { href: "/explorer", label: "Syndrome Explorer" },
+  { href: "/results", label: "Research Results" },
+  { href: "/about", label: "About Research" },
 ]
 
 export function SiteHeader() {
   const pathname = usePathname()
 
   return (
-    <header className="border-b border-border/80 bg-card/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+    <header className="border-b border-[color-mix(in_srgb,var(--wood)_40%,transparent)] bg-[color-mix(in_srgb,var(--warm-white)_88%,transparent)] backdrop-blur-sm">
+      <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
         <Link href="/" className="flex items-center gap-3">
-          <span className="font-cjk grid size-10 place-items-center rounded-full border border-primary/40 bg-primary text-sm text-primary-foreground">
-            辨
-          </span>
+          <span className="seal-mark size-9 rounded-sm text-sm">辨</span>
           <span>
-            <span className="font-heading block text-lg leading-none tracking-tight">TCM Syndrome Desk</span>
-            <span className="text-xs text-muted-foreground">Four examinations · syndrome differentiation</span>
+            <span className="font-heading block text-base leading-tight tracking-tight text-ink">
+              TCM Syndrome Desk
+            </span>
+            <span className="font-cjk text-[11px] text-muted-foreground">中医辨证 · 机器学习研究</span>
           </span>
         </Link>
-        <nav className="flex gap-1 overflow-x-auto">
+        <nav className="flex gap-1 overflow-x-auto pb-0.5">
           {links.map((link) => {
             const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
             return (
@@ -35,8 +34,10 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "rounded-full px-3 py-1.5 text-sm whitespace-nowrap",
-                  active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground",
+                  "rounded-md px-3 py-1.5 text-sm whitespace-nowrap transition-colors",
+                  active
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                 )}
               >
                 {link.label}
@@ -45,8 +46,8 @@ export function SiteHeader() {
           })}
         </nav>
       </div>
-      <p className="border-t border-border/70 px-4 py-2 text-center text-xs text-muted-foreground">
-        Teaching instrument only. It does not diagnose, prescribe, or replace a licensed clinician.
+      <p className="border-t border-[color-mix(in_srgb,var(--wood)_25%,transparent)] px-4 py-1.5 text-center text-[11px] text-muted-foreground">
+        Educational research instrument · not a clinical diagnosis tool
       </p>
     </header>
   )
@@ -54,15 +55,15 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-8 border-t border-border/80 px-4 py-6 text-center text-xs text-muted-foreground">
+    <footer className="mt-auto border-t border-[color-mix(in_srgb,var(--wood)_35%,transparent)] px-4 py-6 text-center text-xs text-muted-foreground">
       <p>
-        Pattern coverage is how completely a teaching profile is present on the chart. It is not a clinical
-        probability and it is not the accuracy reported by the parent studies.
+        Teaching-pattern coverage scores are educational demonstrations, not clinical probabilities and not
+        TCM-SD model outputs.
       </p>
       <p className="mt-2">
-        DS340W · TCM Syndrome Desk ·{" "}
+        DS340W ·{" "}
         <a
-          className="underline-offset-2 hover:underline"
+          className="text-primary underline-offset-2 hover:underline"
           href="https://github.com/shiyx1224-shi/tcm-project"
           target="_blank"
           rel="noreferrer"
